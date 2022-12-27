@@ -141,6 +141,7 @@ def train():
 					# get the inputs; data is a list of [inputs, labels]
 					test_inputs = test_data[0].to(device)
 					# forward
+					#  重构		  μ			 σ
 					test_res, test_mu, test_log_sigma = myVAE(test_inputs)
 
 					test_loss, test_recon_loss, test_KLD = loss_func(test_res, test_inputs, test_mu, test_log_sigma)

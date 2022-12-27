@@ -57,13 +57,16 @@ class ConvVAE(nn.Module):
 	def encode(self, x):
 		h = self.encoder(x)
 		mu, logvar = self.fc1(h), self.fc2(h)
-		return mu, logvar
+		return mu, logvar	# 直接返回方差的对数
 
 	def decode(self, z):
 		z = self.decoder(z)
 		return z
 
 	def reparameterize(self, mu, logvar):
+		# 从 Normal(μ, σ^2)中采样一个Z
+		# 相当于从Normal(0, 1)采样一个ε
+		# Z = μ + ε × σ
 		std = torch.exp(0.5 * logvar)
 		eps = torch.randn_like(std)
 		return eps.mul(std).add_(mu)
